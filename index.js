@@ -182,14 +182,15 @@ function main() {
         else if (event.code === "ArrowRight" && direction !== "left") direction = "right"
         snake.direction = direction
         tickPassed = true // this prevents the player from changing the direction in a tick.
-    });
+    }); 
+    
 
     var gameID = setInterval(function () {
         tickPassed = false;
         let valid = snake.move(game) // I think this is better than using a promise method('.then')
         if (valid == false) {
             clearInterval(gameID)
-            
+
             game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
         }
 

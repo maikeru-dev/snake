@@ -5,7 +5,7 @@ Goals:
 Game runs [x]  
 Reduce number of lines and improve efficiency [x]  
 Smooth reloading []  
-Optimized apple spawning [x]
+Optimized apple spawning [x]  
 Add game over []  
 Add rainbow snake []  
 Remove Scroll on arrow keys [x]  
