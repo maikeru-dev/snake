@@ -3,7 +3,7 @@ class Game {
         this.canvas = document.getElementById("myCanvas"); // defining essentials.
         this.ctx = this.canvas.getContext("2d");
         this.board = this.fill_board();
-        this.draw_grid(this.ctx);
+        //this.draw_grid(this.ctx);
         this.apple = this.spawn_apple();
         this.render_block(this.apple, "#27d817"); 
     }
@@ -189,7 +189,8 @@ function main() {
         let valid = snake.move(game) // I think this is better than using a promise method('.then')
         if (valid == false) {
             clearInterval(gameID)
-            context.clearRect(0, 0, canvas.width, canvas.height);
+            
+            game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
         }
 
     }, 125);
