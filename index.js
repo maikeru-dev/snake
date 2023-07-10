@@ -8,7 +8,7 @@ class Game {
         this.render_block(this.apple, "#27d817"); 
     }
     spawn_apple() {
-        // This function is used after we figure out the snake has landed on the apple
+        // This function is used after we figure out the Snake.js has landed on the apple
 
         /*
                 >> Random method
@@ -32,7 +32,7 @@ class Game {
             /* 
             This is an overcomplicated way of figuring out whether the value is 0 or not.
             When the value is 0, we find the x and y values by counting and then forming a coordinate.
-            We can append that value to an array called swiss_board, because it's a coordinate not occupied by the snake.
+            We can append that value to an array called swiss_board, because it's a coordinate not occupied by the Snake.js.
             This is a more improved version of what I had previously because it doesn't rely on being random.
             */
             var column_index = -1
@@ -101,7 +101,7 @@ class Snake {
         // Adding head to children's beginning 
         this.children.unshift({ blkX: this.head_block.blkX, blkY: this.head_block.blkY }) // Copying without reference
 
-        // On new tick, change the snake's position
+        // On new tick, change the Snake.js's position
         switch (this.direction) {
             case "up":
                 this.head_block.blkY -= 1;
@@ -120,10 +120,10 @@ class Snake {
         if (block_test.out || block_test.in) return false // In case we're out of bounds or inside of ourself
 
         game.board[this.head_block.blkY][this.head_block.blkX] = 2 // Setting body value on board logically
-        game.render_block(this.head_block, this.color) // Renders snake's color by default, this means we're locking to one color and probably can't change it later
+        game.render_block(this.head_block, this.color) // Renders Snake.js's color by default, this means we're locking to one color and probably can't change it later
 
 
-        if (block_test.on_apple != true) { // In case we're not on the apple, remove the last child (This causes the animation of the snake moving on the board)
+        if (block_test.on_apple != true) { // In case we're not on the apple, remove the last child (This causes the animation of the Snake.js moving on the board)
             
             let last_child = this.children.pop();
             game.board[last_child.blkY][last_child.blkX] = 0
@@ -150,7 +150,7 @@ class Snake {
             response.on_apple = true;
         }
 
-        // Check if the snake's head is inside of itself (remember 2 on the board means body)
+        // Check if the Snake.js's head is inside of itself (remember 2 on the board means body)
         if (game.board[this.head_block.blkY][this.head_block.blkX] == 2) { // We haven't set the value yet, so this is fine
             response.in = true
         }
@@ -163,7 +163,7 @@ class Snake {
 
 // Notes
 /*
-There's two systems of figuring out where the snake's body is.
+There's two systems of figuring out where the Snake.js's body is.
 
 */
 
