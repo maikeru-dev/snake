@@ -4,6 +4,7 @@ class Game2D {
     protected renderer : Renderer2D;
     protected board : Board2D;
     protected config : Configuration;
+    protected running : boolean = false;
     protected config_PATH_FILE : string = './gameconfig.json';
     constructor () {
         let canvas = document.getElementById("canvas") as HTMLCanvasElement;
