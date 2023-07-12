@@ -5,6 +5,7 @@ class Renderer2D {
     protected _backgroundColour : Colour; // This could also be called the outline.
     protected _gapSize : number;
     protected _DOT_DIM : Dimension; // This is the size of the square that is defined to be a pixel/dot.
+    protected _blank_colour : Colour = new Colour(255, 255, 255); // White???
     constructor(CTX : CanvasRenderingContext2D, board : Board2D, CONFIG : Configuration) { // board should be passed by reference!
         this._CTX = CTX;
         this._board = board;
@@ -30,7 +31,7 @@ class Renderer2D {
         }
         return new Colour(red, blue, green);
     }
-    private update() : void { // big draw!
+    public update() : void { // big draw!
         let x : number;
         let y : number;
         let boardDIM = this._board.getDIM;
@@ -71,6 +72,9 @@ class Renderer2D {
             dotDIM.getWidth - gap,
             dotDIM.getHeight - gap
         )
+    }
+    public clearDot(dot : Dot) {
+        this.updateDot(dot, this._blank_colour);
     }
     public updateDot(dot : Dot, colour : Colour) : void {
         dot.colour = colour;

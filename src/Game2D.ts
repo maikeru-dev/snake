@@ -1,11 +1,11 @@
 
 class Game2D {
-
-    protected renderer : Renderer2D;
-    protected board : Board2D;
-    protected config : Configuration;
-    protected running : boolean = false;
-    protected config_PATH_FILE : string = './gameconfig.json';
+    protected _perf : Performance;
+    protected _renderer : Renderer2D;
+    protected _board : Board2D;
+    protected _config : Configuration;
+    protected _running : boolean = false;
+    protected _config_PATH_FILE : string = './gameconfig.json';
     constructor () {
         let canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -13,7 +13,8 @@ class Game2D {
             throw new DOMException("Canvas element doesn't exist!", "nullCanvasElement")
         }
 
-        this.renderer = new Renderer2D(canvas.getContext("2d"), this.board, this.config);
+        this._perf = new Performance();
+        this._renderer = new Renderer2D(canvas.getContext("2d"), this._board, this._config);
     }
     protected changeDotColour (dot : Dot, newColour : Colour)  {
         dot.colour = newColour;

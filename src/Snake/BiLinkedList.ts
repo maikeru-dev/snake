@@ -19,19 +19,47 @@ class BiLinkedList { // no plans to extend this, final list.
     public insert(newNode : SnakeBody) {
         newNode.next = this._node;
         this._node = newNode;
-        this._head.next = newNode;
+        this._head.next = newNode; // Head, at this point, is new.
     }
     public removeLast() : SnakeBody {
-        let currentNode : SnakeBody = structuredClone(this._node);
-        let lastNode;
+        let lastNode : SnakeBody;
+        let currentNode;
+
+        currentNode = this._node;
         while (currentNode.next.next != null) {
-            currentNode = currentNode.next;
+            currentNode = this._node.next;
         }
-        lastNode = JSON.parse(JSON.stringify(currentNode.next)); // dodging the reference bullshit
-        currentNode.next = null;
+        lastNode = {...currentNode} as SnakeBody; // <-- this is hella cool
+        currentNode = null;
         return lastNode;
+    }
+    public checkCollisions() : CollisionType {
+        let head = this._head;
+        let currentNode = this._node;
+        let foundCollision = false;
+
+        while (currentNode.next.next != null && !foundCollision) {
+            if (currentNode.coords == head.coords) {
+                foundCollision = true; // We do not need to know where this collision happened, yet.
+            } else {
+                currentNode = currentNode.next;
+            }
+        }
+        return foundCollision ? CollisionType.TOUCH : CollisionType.NONE;
     }
     get getHead() : SnakeHead {
         return this._head;
+    }
+    public fetchFirstMatch(coords : Coordinate) : Coordinate | null {
+        let currentNode : SnakeBody = this._head;
+        let foundNode : SnakeBody = null;
+
+        while (foundNode == null) {
+            if (coords == currentNode.coords) {
+                foundNode = currentNode;
+            }
+        }
+
+        return foundNode.coords;
     }
 }
