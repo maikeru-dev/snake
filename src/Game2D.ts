@@ -13,11 +13,9 @@ class Game2D {
             throw new DOMException("Canvas element doesn't exist!", "nullCanvasElement")
         }
 
-        this._perf = new Performance();
+        this._config = new Configuration(this._config_PATH_FILE, true);
+        this._board = new Board2D(this._config);
+        this._perf = performance;
         this._renderer = new Renderer2D(canvas.getContext("2d"), this._board, this._config);
     }
-    protected changeDotColour (dot : Dot, newColour : Colour)  {
-        dot.colour = newColour;
-    }
-
 }

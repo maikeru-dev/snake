@@ -2,25 +2,28 @@ class Renderer2D {
     protected _CTX : CanvasRenderingContext2D;
     protected _board : Board2D;
     protected _DIM : Dimension;
-    protected _backgroundColour : Colour; // This could also be called the outline.
+    protected _backgroundColour : Colour = new Colour(0, 0, 0); // This could also be called the outline.
     protected _gapSize : number;
     protected _DOT_DIM : Dimension; // This is the size of the square that is defined to be a pixel/dot.
     protected _blank_colour : Colour = new Colour(255, 255, 255); // White???
+    protected _offset : Coordinate = {x : 1.5, y: 1.5}; // This may get overwritten in constructor!
     constructor(CTX : CanvasRenderingContext2D, board : Board2D, CONFIG : Configuration) { // board should be passed by reference!
         this._CTX = CTX;
         this._board = board;
-        this._DIM = new Dimension(CTX.canvas.width, CTX.canvas.height);
+        this._DIM = {width:CTX.canvas.width, height:CTX.canvas.height};
 
         let boardDIM = this._board.getDIM;
 
         if (Configuration.has(["render_gap"], CONFIG)) {
             this._gapSize = CONFIG.getValue("render_gap")
-        } else this._gapSize = 1; // 1 pxl
+        } else this._gapSize = 0.8; // 1 pxl
 
-        this._DOT_DIM = new Dimension(
-            this._DIM.getWidth / boardDIM.getWidth,
-            this._DIM.getHeight / boardDIM.getHeight
-        )
+        this._DOT_DIM = {
+            width: (this._DIM.width / boardDIM.width) - this._gapSize,
+            height: (this._DIM.height / boardDIM.height) - this._gapSize
+        }
+
+        this._offset = {x : this._gapSize, y: this._gapSize};
     }
     get getCTX () : CanvasRenderingContext2D {
         return this._CTX;
@@ -35,14 +38,14 @@ class Renderer2D {
         let x : number;
         let y : number;
         let boardDIM = this._board.getDIM;
-        const width : number = boardDIM.getWidth;
-        const height : number = boardDIM.getHeight;
+        const width : number = boardDIM.width;
+        const height : number = boardDIM.height;
 
         this._CTX.fillStyle = `rgb(${this._backgroundColour.getR},
                                    ${this._backgroundColour.getG}, 
                                    ${this._backgroundColour.getB})`;
 
-        this._CTX.fillRect(0,0, this._DIM.getWidth, this._DIM.getHeight);
+        this._CTX.fillRect(0,0, this._DIM.width, this._DIM.height);
 
         for ( y = 0; y < height; y++ ) {
             for ( x = 0; x < width; x++ ) {
@@ -67,17 +70,17 @@ class Renderer2D {
 
         ctx.fillStyle = colour;
         ctx.fillRect(
-            gap*(coords.getX) + (coords.getX*dotDIM.getWidth),
-            gap*(coords.getY) + (coords.getY*dotDIM.getHeight),
-            dotDIM.getWidth - gap,
-            dotDIM.getHeight - gap
+            gap*(coords.x) + (coords.x*dotDIM.width) + this._offset.x,
+            gap*(coords.y) + (coords.y*dotDIM.height) + this._offset.y,
+            dotDIM.width - gap,
+            dotDIM.height - gap
         )
     }
     public clearDot(dot : Dot) {
-        this.updateDot(dot, this._blank_colour);
+        dot.colour = this._blank_colour
+        this.drawDot(dot);
     }
-    public updateDot(dot : Dot, colour : Colour) : void {
-        dot.colour = colour;
+    public drawDot(dot : Dot) : void {
         this.draw(dot); // skip updating, only necessary when drawing big!
     }
 }

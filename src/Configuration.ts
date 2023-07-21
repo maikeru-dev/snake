@@ -4,13 +4,14 @@ class Configuration {
     constructor(FILE_PATH : string, readonly : boolean) {
         this.readonly = readonly;
 
-        let file = new File(null, FILE_PATH); // exists method apparently doesn't exist, lets figure this out later
-        // TODO: FIGURE OUT HOW TO MAKE THIS SAFER !
-
-        file.text().then(content => {
-            // ON SUCCESS
-            this.configuration = JSON.parse(content);
-        }); // REJECTION AUTOMATICALLY THROWS AN ERROR#
+        // let file = new File(null, FILE_PATH); // exists method apparently doesn't exist, lets figure this out later
+        // // TODO: FIGURE OUT HOW TO MAKE THIS SAFER !
+        //
+        // file.text().then(content => {
+        //     // ON SUCCESS
+        //     this.configuration = JSON.parse(content);
+        // }); // REJECTION AUTOMATICALLY THROWS AN ERROR#
+        this.configuration = new Map<String, any>;
     }
     public static getFile(FILE_PATH : string) : Configuration {
         return new Configuration(FILE_PATH, true);
